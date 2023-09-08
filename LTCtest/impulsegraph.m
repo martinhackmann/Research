@@ -51,7 +51,7 @@ for i = 1:size(Thetagraph, 1)
     pdfSteady(i, 1) = sum(occupSimulSteady(T1+1, :) == i) / B;
 end
 
-%steadyStateMean = mean(occupSimulSteady(T1+1, :), 2);
+
 
 x01 = zeros(1,mc.NumStates);
 x01(1, 25) = 1;
@@ -93,9 +93,6 @@ plot(weeks, occupSimulMeanMonth1, weeks, occupSimulMeanMonth2, weeks, occupStead
 
 %%% steady state
 
-
-cd baseline
-
 ir = figure;
 plot(occupSimulMean1(1:150), 'LineStyle', '-', 'Color', 'blue', 'LineWidth', 2)
 hold on;
@@ -116,38 +113,3 @@ set(ir, 'PaperPositionMode', 'Auto', 'PaperUnits', 'Inches', 'PaperSize', ...
     [pos(3), pos(4)])
 print(ir, 'Figure2d', '-dpdf', '-r0')
 
-
-%T2 = 50;
-%B2 = 12;
-%B3 = 12;
-
-%occupSimul1 = zeros(T2+2, sum(B2*round(B2*pdfSteady)));
-%occupSimul2 = zeros(T2+2, sum(B3*round(B3*pdfSteady)));
-%x02 = B2*round(B2*pdfSteady)'.*ones(1,mc.NumStates);
-%x03 = B3*round(B3*pdfSteady)'.*ones(1,mc.NumStates);
-
-
-%occupSimul1(2:T2+2,:) = simulate(mc, T2, 'X0', x02);
-%occupSimul2(2:T2+2,:) = simulate(mc, T2, 'X0', x03);
-%occupSimul1(2:T2+2,:) = occupSimul1(2:T2+2, :) - (occupSimul1(2, :) - 1); 
-%occupSimul2(2:T2+2,:) = occupSimul2(2:T2+2, :) - (occupSimul2(2, :)); 
-%occupSimulMean1 = mean(occupSimul1, 2);
-%occupSimulMean2 = mean(occupSimul2, 2);
-
-
-%ir = figure;
-%plot(occupSimulMean1(1:40), 'LineStyle', '-', 'Color', 'blue', 'LineWidth', 2)
-%hold on;
-%plot(occupSimulMean2(1:40), 'LineStyle', '--', 'Color', 'black', 'LineWidth', 2)
-%hold off;
-%legend({'with occupancy shock', 'without occupancy shock'}, 'Location', 'northeast', 'FontSize', 16)
-%xlabel('weeks', 'FontSize', 16)
-%ylabel('occupancy rate deviation', 'FontSize', 16)
-%xt = get(gca, 'XTick');
-%set(gca, 'FontSize', 16)
-%set(ir, 'Units', 'Inches')
-%pos = get(ir, 'Position');
-%set(ir, 'PaperPositionMode', 'Auto', 'PaperUnits', 'Inches', 'PaperSize', ...
-%    [pos(3), pos(4)])
-%print(ir, 'Figure2dv2', '-dpdf', '-r0')
-    
