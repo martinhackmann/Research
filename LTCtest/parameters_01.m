@@ -6,7 +6,7 @@ sigma = 1;
 % weekly discount factor                    
 delta = 0.95^(1/52);            
 
-%%% median prices lines 357/358 in analyis_main.do
+%%% median prices lines 322/323 in 01_analyis_main.do
 % weekly revenue
 revenue = [7*2.58 7*2.14]; 
 
@@ -32,17 +32,16 @@ nOccupPart = size(occupPart, 1);
 nPayer = 2;
 
 % exogenous discharge rate
-%mu = [0.0356719 0.0135567];
-% lines 542 and 546 in 1_analysis_main.do
+% lines 240 and 267 in 2_analysis_quartiles.do
 mu = [0.032 0.0147];
 
 % payer type change probability (probability that resident is on Medicaid next period)
-%% line 555 in 1_analysis_main.do
+%% line 568 in 01_analysis_main.do
 psi = [0.011 1];
 
 % bed refill probability (assume prob = 0 for occup < 0.75)
-%% See Extradescriptives.do
-phiData = csvread('Refillodds_all.csv');
+%% See 13_Extradescriptives.do (line 279)
+phiData = csvread('../baseline/Refillodds_all.csv');
 phiPart = phiData(11:35,3);
 phiPart(phiPart < 0) = 0;            
 
@@ -50,15 +49,12 @@ phiPart(phiPart < 0) = 0;
 % line 33 in 10_Prepare_states_dischargeanalysis0005keepmed.do
 rho = 0.78;
 
-% fraction of private payers in steady state
-%fracPrvSteady = 0.3;
-
-% cost parameter
+% cost parameter (cost fucntion=e^costtau, here e^2)
 costtau = 2;
 
 % occupancy transition matrix: import data
-%
-occupTrans = csvread('occupancy_transitions.csv', 1, 0);
+% See 13_Extradescriptives.do (line 363)
+occupTrans = csvread('../baseline/occupancy_transitions.csv', 1, 0);
 
 %%% drop zeros in columns 1:2 (missing values)
 miss=occupTrans(:,1)>0
@@ -120,7 +116,8 @@ for i = 1:size(ThetaPart, 1)
 end
 
 % steady state occupancy distribution
-occupSteady = csvread('occupancy_steadystate.csv', 1, 0);
+% See 13_Extradescriptives.do (line 341)
+occupSteady = csvread('../baseline/occupancy_steadystate.csv', 1, 0);
 occupSteadyPdf = occupSteady(:, 2) / sum(occupSteady(:, 2));
 occupSteadyCdf = zeros(size(occupSteady, 1), 1);
 occupSteadyCdf(1, 1) = occupSteadyPdf(1, 1);
@@ -133,10 +130,10 @@ occupSteadyCdf = occupSteadyCdf(2:36);
 
 % number of simulation draws
 global nSim
-nSim = 1000000;
+nSim = 1000;
 
 global Numsim
-Numsim = 1000000;
+Numsim = 1000;
 
 % number of time periods (weeks)
 global T
@@ -160,9 +157,9 @@ simu_shock4 = rand(nSim,T);
 occushockt = rand(nSim,1);
 
 %%% load occupancy distribution
-occudist = csvread('occuinterdistribution.csv', 1, 0);
+% See 13_Extradescriptives.do (line 402)
+occudist = csvread('../baseline/occuinterdistribution.csv', 1, 0);
 
-cd baseline
 
 %%%%%%%%%%%%%%%%%% Descriptive Figure 2
 
@@ -205,7 +202,7 @@ print(od, 'Figure2b', '-dpdf', '-r0')
 %%% Figure 2c
 
 % endogenous occupancy rates
-% see extra descriptives
+% see lines 94-133 in ExtraDescriptives.do
 arrivpdf = [0.38 0.26 0.14 0.08 0.05 0.03 0.02 0.01 0.01 0.03];
 arrivCDF = zeros(1,size(arrivpdf,2));
 for i = 1:size(arrivpdf,2)
@@ -236,10 +233,8 @@ print(ar, 'Figure2c', '-dpdf', '-r0')
 
 %%%% Figure 2d
 
-cd ..
 run('impulsegraph.m')
 
-cd ..
 % simulation weeks
 sw = 100000;
 stead = 5000;
