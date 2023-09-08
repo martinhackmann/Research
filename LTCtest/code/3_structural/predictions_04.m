@@ -352,8 +352,8 @@ while diff > tol
     Pr_med_extra=ones(nOccup,1)*(mu(2)+beta^2/kappa/costtau*mean(max(kappa*price_cf(2)-utility(2)-dischShock_cons(:,3)+dischShock_cons(:,4),0))) ...
         +paramsMin(1)*effortsnf_count(1:35);  
 
-    run('../../../code/3_structural/endo_occupancy_06.m')
-    run('../../../code/3_structural/simulatelos_endo_08.m')
+    run('endo_occupancy_06.m')
+    run('simulatelos_endo_08.m')
 
     diff=abs(mean(LOS_med)-LOStable(2,7));
 

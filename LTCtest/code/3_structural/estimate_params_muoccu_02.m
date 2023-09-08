@@ -12,16 +12,17 @@ homeDischVarMcdCOV = data(1:35, 74:108);
 homeDischVar = [homeDischVarPrv, homeDischVarMcdCOV; transpose(homeDischVarMcdCOV), homeDischVarMcd];
 
 % estimate parameters and effort function
-[paramsMin, effortsnf] = estimationalgo_joint2(dischShock_cons, ...
-    nOccup, nOccupLim, homeDisch2, utility, price, revenue, delta, mu, ...
+[paramsMin, effortsnf] = estimationalgo_joint2_muoccu(dischShock_cons, ...
+    nOccup, nOccupLim, homeDisch2, utility, price, revenue, delta, muoccu, ...
     Theta, psi, phiPart, rho, costtau, xstart);
 
-%global xstart;
-%xstart=paramsMin;
+
+
+
 
 % bootstrap confidence intervals
-run('params_bootstraphigh_03.m')
+run('params_bootstrap_muoccu_03.m')
 
 % save parameters
 estCI = [paramsMin', paramsSE', paramsCI'];
-csvwrite('structural_est.csv', estCI);
+csvwrite(['structural_est_' model '.csv'], estCI);

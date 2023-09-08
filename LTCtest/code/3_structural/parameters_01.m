@@ -130,10 +130,10 @@ occupSteadyCdf = occupSteadyCdf(2:36);
 
 % number of simulation draws
 global nSim
-nSim = 1000;
+nSim = 1000000;
 
 global Numsim
-Numsim = 1000;
+Numsim = 1000000;
 
 % number of time periods (weeks)
 global T

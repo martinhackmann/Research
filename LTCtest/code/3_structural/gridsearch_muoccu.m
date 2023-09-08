@@ -10,11 +10,11 @@ homeDischVarMcd = data(:, 39:73);
 homeDischVarMcdCOV = data(1:35, 74:108);
 homeDischVar = [homeDischVarPrv, homeDischVarMcdCOV; transpose(homeDischVarMcdCOV), homeDischVarMcd];
 
+
 homeDischLim = homeDisch2(11:nOccup, :);
 phiEffort=vertcat(zeros(10,1),phiPart);
 
-
-provider_x = @(x)crit_cond2(x, costtau, revenue, delta, mu, Theta, ...
+provider_x = @(x)crit_cond2_muoccu(x, costtau, revenue, delta, muoccu, Theta, ...
         psi, phiEffort, rho, dischShock_cons, nOccupLim, price, utility, ...
         homeDischLim);
     
@@ -53,7 +53,7 @@ Gridmat=[Gridmat; 0.0210,    0.1781,    0.0306,    7.8000];
 
 
 
-
+%fitresult=applyToRows(provider_x,Gridmat);
 
 
 fitresult=ones(length(Gridmat),1);
@@ -67,5 +67,8 @@ end
 global xstart
 xstart=Gridmat(minidx,:);
 
-
+%bestalpha = Gridmat(minidx,1);
+%bestbeta = Gridmat(minidx,2);
+%bestkappa = Gridmat(minidx,3);
+%bestmc = Gridmat(minidx,4);
 

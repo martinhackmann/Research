@@ -1,14 +1,13 @@
-
 %%%% adjust Medicaid patient utility to match experiment discharge rates    
 
-%avg_med=(dispriv_med'*occupSteadyPdf(12:36))/sum(occupSteadyPdf(12:36));
+
 
 alpha = paramsMin(1); 
 beta = paramsMin(2);
 kappa = paramsMin(3);
 mc = paramsMin(4);
 
-%effort = (0.00:0.005:1.99);
+
 effort=(0.00:0.01:1.99);
 phiEffort = vertcat(zeros(10, 1), phiPart);
 phieffort_count = vertcat(zeros(10, 1), phiPart);
@@ -131,7 +130,7 @@ run('simulatelos_endo_08.m')
 
 %% Counterfactuals
 
-%effort = (0.00:0.00001:0.02);
+
 effort=(0.00:0.01:1.99);
 phieffort_count = vertcat(zeros(10, 1), phiPart);
 

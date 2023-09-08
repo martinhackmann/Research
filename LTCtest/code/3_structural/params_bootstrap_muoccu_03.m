@@ -1,6 +1,6 @@
 %% THIS PROGRAM GENERATES BOOTSTRAP CONFIDENCE INTERVALS FOR ESTIMATED PARAMETERS %%
 
-nBoot = 99;
+nBoot = 3;
 paramsBootEst = zeros(nBoot, 4);
 paramsBootCent = zeros(nBoot, 4);
 effortBoot = zeros(nOccup,nBoot);
@@ -9,6 +9,8 @@ meanboot = homeDisch1;
 meanboot(36:70)=meanboot(36:70)-meanboot(1:35); %%% transform into raw estimates (private and medicaid difference)
 
 alphaBoot = 0.05;
+
+%rng(1234567)
 
 for b = 1:nBoot
     
@@ -20,26 +22,15 @@ for b = 1:nBoot
     % distribution    
     homeDischBoot1 = mvnrnd(meanboot, homeDischVar);
     homeDischBoot2 = [homeDischBoot1(1:35)', homeDischBoot1(1:35)'+homeDischBoot1(36:70)'];
-    
-    run('gridsearch_bootstraplow.m')
 
+    run('gridsearch_bootstrap_muoccu.m')
+    
     b
     
     % estimation algorithm for each bootstrap draw
-    paramstemp = estimationalgo_joint2(dischShock_cons, nOccup, ...
-        nOccupLim, homeDischBoot2, utility, price, revenue, delta, mu, ...
+    paramsBootEst(b, :) = estimationalgo_joint2_muoccu(dischShock_cons, nOccup, ...
+        nOccupLim, homeDischBoot2, utility, price, revenue, delta, muoccu, ...
         Theta, psi, phiPart, rho, costtau, xstart);
-    
-    
-    if provider_x(paramstemp)<provider_x(xstart)
-        
-    paramsBootEst(b, :)=paramstemp;
-    
-    else 
-        
-    paramsBootEst(b, :)=xstart;    
-    
-    end
     
     paramsBootCent(b, :) = paramsBootEst(b, :) - paramsMin;
      

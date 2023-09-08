@@ -1,6 +1,6 @@
 %% THIS PROGRAM GENERATES BOOTSTRAP CONFIDENCE INTERVALS FOR ESTIMATED PARAMETERS %%
 
-nBoot = 99;
+nBoot = 3;
 paramsBootEst = zeros(nBoot, 4);
 paramsBootCent = zeros(nBoot, 4);
 effortBoot = zeros(nOccup,nBoot);
@@ -13,15 +13,15 @@ alphaBoot = 0.05;
 for b = 1:nBoot
     
     dischShock_cons_boot = -evrnd(0, 1, nPayer*2, nSim)';
-    %dischShock0 = -evrnd(0, 1, nOccupLim, nPayer, nSim);
-    %dischShock1 = -evrnd(0, 1, nOccupLim, nPayer, nSim);
+   
+    
  
     % draw home discharge rates (regression coefficients) from their
     % distribution    
     homeDischBoot1 = mvnrnd(meanboot, homeDischVar);
     homeDischBoot2 = [homeDischBoot1(1:35)', homeDischBoot1(1:35)'+homeDischBoot1(36:70)'];
     
-    run('gridsearch_bootstraphigh.m')
+    run('gridsearch_bootstrap.m')
 
     b
     
