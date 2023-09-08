@@ -67,8 +67,6 @@ end
 global xstart
 xstart=Gridmat(minidx,:);
 
-provider_x(xstart)
-provider_x(Gridmat(length(Gridmat),:))
 
 
 

@@ -5,8 +5,8 @@ clear;
 parpool(12, 'IdleTimeout', Inf)
 
 % folder in the repo that contains the code and input files for the structural estimation; XXX depends on user
-cd /u/home/h/hackmann/Projects/LTCincentives_test/
-addpath('/u/home/h/hackmann/Projects/LTCincentives_test/code/3_structural')
+cd /u/home/h/hackmann/Projects/LTCincentives_final/
+addpath('/u/home/h/hackmann/Projects/LTCincentives_final/code/3_structural')
 rng(1234567)
 
 disp('Prepare Analysis')
