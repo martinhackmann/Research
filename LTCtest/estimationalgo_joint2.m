@@ -13,12 +13,12 @@ function [paramsMin, effortsnf] = estimationalgo_joint2(dischShock_cons, ...
         psi, phiEffort, rho, dischShock_cons, nOccupLim, price, utility, ...
         homeDischLim);
     
-    x0 = [0.0271,    0.9423,    0.0369,    5.4197];
+    
     x0=xstart;
-    %x0=[0.0197,    1.0408,    0.0616 ,   7.9893];
-    %x0=[0.0211,    0.9023,    0.0369,    3.8197];
-    %x0=[0.0197,    0.9686,    0.0440,    3.8745];
-    %x0=[0.0237,    0.9686,    0.0440,    2.0745];
+    
+    
+    
+    
     
     A = [];
     b = [];
@@ -31,9 +31,9 @@ function [paramsMin, effortsnf] = estimationalgo_joint2(dischShock_cons, ...
         'Display', 'iter', 'OptimalityTolerance', 1e-20, 'ConstraintTolerance', 1e-20);
     optionsminsearch = optimset('Display','iter','MaxIter', 50);
 
-    %%x1=fminsearch(provider_x, x0,optionsminsearch);
+    
     paramsMin = fmincon(provider_x, x0, A, b, Aeq, beq, lb, ub, nlincon, options);
-    %% paramsMin=fminsearch(provider_x, x2,optionsminsearch);
+    
 
     % recover optimal effort
     effort=(0.00:0.01:1.99); 

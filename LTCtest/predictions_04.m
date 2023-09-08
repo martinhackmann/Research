@@ -3,9 +3,9 @@
 % estimated parameters  
 alpha = paramsMin(1); 
 beta = paramsMin(2);
-gamma1 = 1;
-gamma2 = 1;
-gamma3 = 1;
+
+
+
 kappa = paramsMin(3);
 mc = paramsMin(4);
 
@@ -52,8 +52,7 @@ Pr_med_extra=ones(nOccup,1) * beta * mean(max((beta * (kappa * ...
         price(2) - utility(2) - dischShock_cons(:,1) + dischShock_cons(:,2))) / ...
         (2 * kappa), 0)) + alpha * effortsnf(1:35)+mu(2);   
 
-%%%% save point estimates for 
-
+%%%% save point estimates for figures
 
 Figure5=zeros(25,5);
 Figure5(:,1)=occupLim;
@@ -62,14 +61,12 @@ Figure5(:,3)=dispriv_med;
 Figure5(:,4)=homeDischLim1(1:25);
 Figure5(:,5)=homeDischLim1(26:50);
 
-csvwrite('Figure5_' model '.csv', Figure5)
+csvwrite(['Figure5_' model '.csv'], Figure5)
     
 Runs=10;
 
 elasticities=zeros(2,Runs);
 
-
-    
 % construct other (exogenous) beds history
 run('otherbeds_history_05.m')
 run('endo_occupancy_06.m')
@@ -164,10 +161,10 @@ elasticities(2,n)=provider_elast;
 
 end
 
-csvwrite('elasticities.csv', elasticities)
+csvwrite(['elasticities_' model '.csv'], elasticities)
 
 
-%%%% Robustness Patient Incentives
+%%%% Robustness Patient Incentives (alternative price variation)
 
 run('robustness_patientincentives.m')
 
@@ -224,7 +221,7 @@ Figure6a(:,3)=dispriv_med;
 Figure6a(:,4)=homeDischLim1(1:25);
 Figure6a(:,5)=homeDischLim1(26:50);
 
-csvwrite('Figure6a_' model '.csv', Figure6a)   
+csvwrite(['Figure6a_' model '.csv'], Figure6a)   
       
 run('endo_occupancy_06.m')        
 run('simulatelos_07.m')
@@ -317,7 +314,7 @@ Figure6c(:,3)=dispriv_med;
 Figure6c(:,4)=homeDischLim1(1:25);
 Figure6c(:,5)=homeDischLim1(26:50);
 
-csvwrite('Figure6c_' model '.csv', Figure6c)      
+csvwrite(['Figure6c_' model '.csv'], Figure6c)      
     
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -355,8 +352,8 @@ while diff > tol
     Pr_med_extra=ones(nOccup,1)*(mu(2)+beta^2/kappa/costtau*mean(max(kappa*price_cf(2)-utility(2)-dischShock_cons(:,3)+dischShock_cons(:,4),0))) ...
         +paramsMin(1)*effortsnf_count(1:35);  
 
-    run('endo_occupancy_06.m')
-    run('simulatelos_endo_08.m')
+    run('../../../code/3_structural/endo_occupancy_06.m')
+    run('../../../code/3_structural/simulatelos_endo_08.m')
 
     diff=abs(mean(LOS_med)-LOStable(2,7));
 
@@ -403,8 +400,10 @@ Figure6c10percent(:,3)=dispriv_med;
 Figure6c10percent(:,4)=homeDischLim1(1:25);
 Figure6c10percent(:,5)=homeDischLim1(26:50);
 
-csvwrite('Figure6c10percent' model '.csv', Figure6c10percent)      
+csvwrite('Figure6c10percent.csv', Figure6c10percent)      
     
+  
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% COUNTERFACTUAL POLICY: DISCHARGE BONUS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -499,7 +498,7 @@ Figure6b(:,3)=dispriv_med;
 Figure6b(:,4)=homeDischLim1(1:25);
 Figure6b(:,5)=homeDischLim1(26:50);
 
-csvwrite('Figure6b_' model '.csv', Figure6b)     
+csvwrite(['Figure6b_' model '.csv'], Figure6b)     
         
 run('endo_occupancy_06.m')        
 run('simulatelos_endo_08.m')
@@ -510,7 +509,7 @@ LOStable(3,8) = mean(occuphist((stead+1):sw));
 
 BigT=table(LOStable(2:3,1),LOStable(2:3,4),LOStable(2:3,8),LOStable(2:3,6),LOStable(2:3,7),'VariableNames',{'Baseline','Voucher','Bonus','Front2perc','Front10perc'},'RowNames',{'MedicaidLOS' 'AverageOccupancy'})
 
-writetable(BigT,'LOStable.xlsx','Sheet',1);
+writetable(BigT,['LOStable' model '.xlsx'],'Sheet',1);
 
 
 

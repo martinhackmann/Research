@@ -13,8 +13,8 @@ alphaBoot = 0.05;
 for b = 1:nBoot
     
     dischShock_cons_boot = -evrnd(0, 1, nPayer*2, nSim)';
-    %dischShock0 = -evrnd(0, 1, nOccupLim, nPayer, nSim);
-    %dischShock1 = -evrnd(0, 1, nOccupLim, nPayer, nSim);
+   
+    
  
     % draw home discharge rates (regression coefficients) from their
     % distribution    
