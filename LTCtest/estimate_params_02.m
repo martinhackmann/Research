@@ -17,7 +17,7 @@ homeDischVar = [homeDischVarPrv, homeDischVarMcdCOV; transpose(homeDischVarMcdCO
     Theta, psi, phiPart, rho, costtau, xstart);
 
 
-disp(paramsMin)
+paramsMin
 
 % bootstrap confidence intervals
 run('params_bootstrap_03.m')
