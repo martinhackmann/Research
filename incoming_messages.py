@@ -1,13 +1,10 @@
-##### incoming text messages
-
-@app.route("/messages", methods=["GET", "POST"])
-def incoming_sms():  
+@app.route("/whatsapp", methods=["GET", "POST"])
+def incoming_whatsapp(): 
     incoming_message = request.form['Body']
     number=request.form['From']
-    saveddate1=str(time.ctime());
+    saveddate1=str(time.ctime())
     ### strip whatsapp text from number
-    #numbershort=number.replace('whatsapp:', '')
-    numbershort=number
+    numbershort=number.replace('whatsapp:', '')
     #db['login1']='hello'
     if numbershort in db:
         messages=eval(db[numbershort]['message'])
@@ -29,11 +26,14 @@ def incoming_sms():
 
     if answer=="true":
     #messages=[{"role": "system", "content": prompt},
-  #### Restrict history to at most 25 messages
+
+    #### Restrict history to at most 25 messages
   
       messages_ai=messages;
       if len(messages)>25:
         messages_ai=messages[:1]+messages[-25:];
+        #messages_ai=messages[len(messages)-25:(len(messages))];
+      
     ### new code
       response = openai.ChatCompletion.create(
       model="gpt-4",
@@ -57,8 +57,8 @@ def incoming_sms():
       for text in texts:  
               client.messages.create(
                               body=text,
-                from_='+18776410832',
-                            to=numbershort)
+                from_='whatsapp:+14243220749',
+                            to=number)
               time.sleep(0.5)
         
     ### add answer to messages history
@@ -68,4 +68,5 @@ def incoming_sms():
       saveddate2=str(time.ctime());
       timehist=timehist+[saveddate1]+[saveddate2];
       db[numbershort]['date']=json.dumps(timehist);
-    return str(resp)
+
+      return str(resp)
